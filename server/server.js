@@ -9,6 +9,10 @@ const url = process.env.DB_CONNECTION_STRING;
 //connect database
 connectDB(url);
 
+//middleware get info from client by req.body
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
 //route
 require('./routes/web')(app);
 
