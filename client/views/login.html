@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <div id="login-box">
+        <div class="left">
+            <h1>Login</h1>
+            <span id="capslock" style="display:none; color: red" class="text-center text-red-500 text-sm">WARNING! CapsLock is on</span>
+            <input type="text" id="email" name="email" placeholder="E-mail" />
+            <input type="password" id="password" name="password" placeholder="Password" />
+            
+            <button type="submit" name="loginSubmit" onclick="handleLogin()">Login</button><br><br><br>
+            <a href="register.html">Register now!</a>
+        </div>
+        <div class="right">
+            <span class="loginwith">Sign in with<br />social network</span>
+            
+            <button class="social-signin facebook">Log in with facebook</button>
+            <button class="social-signin twitter">Log in with Twitter</button>
+            <button class="social-signin google">Log in with Google+</button>
+        </div>
+        <div class="or">OR</div>
+    </div>
+
+    <script>
+        let email = document.getElementById("email");
+        let pass = document.getElementById("password");
+        let text = document.getElementById("capslock");
+        email.addEventListener("keyup", function(event) {
+    
+        if (event.getModifierState("CapsLock")) {
+            text.style.display = "block";
+        } else {
+            text.style.display = "none"
+        }
+        });
+        email.addEventListener("keyup", function(event) {
+    
+            if (event.getModifierState("CapsLock")) {
+                text.style.display = "block";
+            } else {
+                text.style.display = "none"
+            }
+        });
+        pass.addEventListener("keyup", function(event) {
+            
+            if (event.getModifierState("CapsLock")) {
+                text.style.display = "block";
+            } else {
+                text.style.display = "none"
+            }
+        });
+    </script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../js/jwt-decode.js"></script>
+    <script src="../js/login.js"></script>
+</body>
+</html>
