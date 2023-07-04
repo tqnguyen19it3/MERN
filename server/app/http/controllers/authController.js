@@ -40,7 +40,7 @@ function authController() {
                 //check user exits
                 const user = await userModel.findOne({ email });
                 if(!user){
-                    return res.status(400).send('Invalid Email Or Password');
+                    return res.status(400).send('Invalid Email');
                 }
                 //check password
                 const isPassValid = bcrypt.compareSync(password, user.password);
@@ -60,7 +60,7 @@ function authController() {
                 });
 
             } catch (error) {
-                console.log('error', error);
+                console.log('Error: ', error);
             }
         },
     }
