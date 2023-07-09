@@ -3,7 +3,7 @@ function homeController() {
     return {
         // [GET] / HOME
         index(req, res) {
-            res.send("home page");
+            res.status(200).send("home page");
         },
     }
 }

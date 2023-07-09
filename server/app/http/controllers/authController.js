@@ -1,68 +1,85 @@
-const userModel = require('../../models/user');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const createError = require('http-errors');
+const { userRegisterValidate, userLoginValidate} = require('../../validations/validation');
+const { signAccessToken, signRefreshToken } = require('../../services/jwt.service');
+
+//models
+const userModel = require('../../models/user');
 
 function authController() {
     return {
         // [POST] / register
-        async register(req, res) {
+        async register(req, res, next) {
             try {
                 const { name, email, password } = req.body;
-                // check fill all fields
-                if(!name || !email || !password){
-                    res.status(400).send("Register Failed! Please fill in all fields");
+                // validate all fields
+                const { error } = userRegisterValidate(req.body);
+                if(error){
+                    throw createError(error.details[0].message);
                 }
                 // check email exits
                 const existingUser = await userModel.findOne({ email });
                 if (existingUser) {
-                    res.status(400).send('Register Failed! Email already exists');
+                    throw createError.Conflict(`Register Failed! ${email} already exists`);
                 }
                 // store 1 user in mongodb
-                await userModel.create({
+                const user = await userModel.create({
                     name,
                     email,
                     password: bcrypt.hashSync(password, 10)
                 });
-                return res.status(200).send("Register Successfully!");
+                return res.status(200).json({
+                    message: "Register Successfully!",
+                    user
+                });
 
             } catch (error) {
-                console.log('Error: ', error);
+                next(error);
             }
         },
         // [POST] / login
-        async login(req, res) {
+        async login(req, res, next) {
             try {
                 const { email, password } = req.body;
-                // check fill all fields
-                if(!email || !password){
-                    res.status(400).send("Please fill in all fields");
+                // validate all fields
+                const { error } = userLoginValidate(req.body);
+                if(error){
+                    throw createError(error.details[0].message);
                 }
                 //check user exits
                 const user = await userModel.findOne({ email });
                 if(!user){
-                    return res.status(400).send('Invalid Email');
+                    throw createError.NotFound(`Login Failed! ${email} not registered`);
                 }
                 //check password
                 const isPassValid = bcrypt.compareSync(password, user.password);
                 if(!isPassValid){
-                    return res.status(400).send('Invalid Password');
+                    throw createError.Unauthorized();
                 }
                 // create jwt when login success
-                const jwtUser = jwt.sign({
+                const payload = {
                     _id: user._id,
                     name: user.name,
                     role: user.role
-                  }, process.env.SECRET_JWT , { expiresIn: 60 * 60 }); 
-
-                return res.status(200).send({
-                    message: "Login successfully!",
-                    accessToken: jwtUser
+                }
+                const accessTokenUser = await signAccessToken(payload);
+                const refreshTokenUser = await signRefreshToken(payload);
+                return res.status(200).json({
+                    message: "Login successfully!", 
+                    accessToken: accessTokenUser,
+                    refreshToken: refreshTokenUser
                 });
 
             } catch (error) {
-                console.log('Error: ', error);
+                next(error);
             }
         },
+        // [POST] / logout
+        logout(req, res, next) {
+            return res.status(200).json({
+                message: "Logout successfully!"
+            });
+        }
     }
 }
 
