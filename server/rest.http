@@ -21,8 +21,21 @@ Content-Type: application/json
 }
 
 ### LOGOUT
-POST http://localhost:5000/api/auth/logout
+DELETE http://localhost:5000/api/auth/logout
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoicnVtdHFuIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2ODg5MDk0MjQsImV4cCI6MTcyMDQ2NzAyNH0.BsPJsf_glewW9XCGBQJ7ZMrmp-QMPpakH89KrI-deZ4"
+}
+
+### REFRESH TOKEN
+POST http://localhost:5000/api/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoicnVtdHFuIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2ODg5MDk0MjQsImV4cCI6MTcyMDQ2NzAyNH0.BsPJsf_glewW9XCGBQJ7ZMrmp-QMPpakH89KrI-deZ4"
+}
 
 ### GET LIST USER BY ADMIN
 GET http://localhost:5000/auth/admin/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMGExMGJiMDNhN2NiMzRjNzhiMjIiLCJuYW1lIjoidGVzdDIyIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2ODg4NzIyMzIsImV4cCI6MTY4ODg3MjI0Mn0.dO_FKcQyYaSUvBl2r8S4vK9m9Kj1lTAk1JKuWhGyJE8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoicnVtdHFuIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2ODg5MDk0MjQsImV4cCI6MTY4ODkwOTQ4NH0.0yH5HPPubjzlprw394x5AMWVp8SkHpbavl9_rx04E3k

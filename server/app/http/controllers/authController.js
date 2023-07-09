@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 const { userRegisterValidate, userLoginValidate} = require('../../validations/validation');
-const { signAccessToken, signRefreshToken } = require('../../services/jwt.service');
+const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../../services/jwt.service');
+const redisClient = require('../../config/redis');
 
 //models
 const userModel = require('../../models/user');
@@ -74,11 +75,40 @@ function authController() {
                 next(error);
             }
         },
-        // [POST] / logout
-        logout(req, res, next) {
-            return res.status(200).json({
-                message: "Logout successfully!"
-            });
+        // [DELETE] / logout
+        async logout(req, res, next) {
+            try {
+                const { refreshToken } = req.body;
+                if(!refreshToken){
+                    throw createError.BadRequest();
+                } 
+                const { _id } = await verifyRefreshToken(refreshToken);
+                redisClient.del(_id, (err, reply) => {
+                    if(err){
+                        throw createError.InternalServerError();
+                    } 
+                    res.status(200).json({
+                        'message': 'Logout Successfully!'
+                    })
+                });
+            } catch (error) {
+                next(error);
+            }
+        },
+        // [POST] / refresh token
+        async refreshToken(req, res, next) {
+            try {
+                const { refreshToken } = req.body;
+                if(!refreshToken) throw createError.BadRequest();
+
+                const {_id, name, role} = await verifyRefreshToken(refreshToken);
+                const accessTokenUser = await signAccessToken({_id, name, role});
+                const refreshTokenUser = await signRefreshToken({_id, name, role});
+
+                res.status(200).json({accessTokenUser, refreshTokenUser});
+            } catch (error) {
+                next(error);
+            }
         }
     }
 }
