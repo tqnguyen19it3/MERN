@@ -1,13 +1,20 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
+const morgan = require('morgan');
 const connectDB = require('./app/config/mongodb');
 const createError = require('http-errors');
 const errorHandler = require('./app/http/middlewares/errorHandler');
 
+
 const PORT = process.env.PORT || 5000;
 const url = process.env.DB_CONNECTION_STRING;
+
+
+// use extension morgan
+app.use(morgan());
+
 
 //connect database
 connectDB(url);

@@ -6,8 +6,8 @@ POST http://localhost:5000/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "test22",
-    "email": "test22@gmail.com",
+    "name": "drhappykun",
+    "email": "drhappykun@gmail.com",
     "password": "123456"
 }
 
@@ -16,7 +16,7 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "rum123@gmail.com",
+    "email": "admin@gmail.com",
     "password": "123456"
 }
 
@@ -25,7 +25,7 @@ DELETE http://localhost:5000/api/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoicnVtdHFuIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2ODg5MDk0MjQsImV4cCI6MTcyMDQ2NzAyNH0.BsPJsf_glewW9XCGBQJ7ZMrmp-QMPpakH89KrI-deZ4"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGMxNDlkNmZiMTY0NDFlYjgwZDNmOTgiLCJuYW1lIjoiTmd1ecOqbiBUcuG6p24gUXXhu5FjIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2OTAzODg5ODQsImV4cCI6MTcyMTk0NjU4NH0.IDimZ_L1XRYOnUDzIEvPM8JcWIbEgSgqtCWojm0YO4g"
 }
 
 ### REFRESH TOKEN
@@ -33,9 +33,51 @@ POST http://localhost:5000/api/auth/refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoicnVtdHFuIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2ODg5MDk0MjQsImV4cCI6MTcyMDQ2NzAyNH0.BsPJsf_glewW9XCGBQJ7ZMrmp-QMPpakH89KrI-deZ4"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4OTA0MTY1MiwiZXhwIjoxNzIwNTk5MjUyfQ.TM7stHGBueYhyNjjUH0bMVDKwv1wxAVns-tysO3E04k"
 }
 
 ### GET LIST USER BY ADMIN
 GET http://localhost:5000/auth/admin/user
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoicnVtdHFuIiwicm9sZSI6InJlZ3VsYXIiLCJpYXQiOjE2ODg5MDk0MjQsImV4cCI6MTY4ODkwOTQ4NH0.0yH5HPPubjzlprw394x5AMWVp8SkHpbavl9_rx04E3k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5MDM4OTU5NSwiZXhwIjoxNjkwMzkzMTk1fQ.MfFUtH-5KinZujfSICunqSy51gQQy_HhwWI7bD8lb_0
+
+### CREATE USER BY ADMIN
+POST http://localhost:5000/auth/admin/user/create-user
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5MDM4OTU5NSwiZXhwIjoxNjkwMzkzMTk1fQ.MfFUtH-5KinZujfSICunqSy51gQQy_HhwWI7bD8lb_0
+
+{
+    "name": "abcd123456",
+    "email": "abcd123456@gmail.com",
+    "password": "123456",
+    "role": "regular"
+}
+
+### SOFT DELETE USER BY ADMIN
+DELETE http://localhost:5000/auth/admin/user/soft-delete-user/64c150bb16a1b71130fef73e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5MDM4OTU5NSwiZXhwIjoxNjkwMzkzMTk1fQ.MfFUtH-5KinZujfSICunqSy51gQQy_HhwWI7bD8lb_0
+
+### GET LIST DELETED USERS BY ADMIN
+GET http://localhost:5000/auth/admin/user/trash-user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5MDM4OTU5NSwiZXhwIjoxNjkwMzkzMTk1fQ.MfFUtH-5KinZujfSICunqSy51gQQy_HhwWI7bD8lb_0
+
+### RESTORE USER BY ADMIN
+PATCH http://localhost:5000/auth/admin/user/restore-user/64c150bb16a1b71130fef73e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5MDM4OTU5NSwiZXhwIjoxNjkwMzkzMTk1fQ.MfFUtH-5KinZujfSICunqSy51gQQy_HhwWI7bD8lb_0
+
+### DESTROY USER BY ADMIN
+DELETE http://localhost:5000/auth/admin/user/destroy-user/64c150bb16a1b71130fef73e
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGFhMTBiYWNjZTc5YTllOTU1Y2NhM2EiLCJuYW1lIjoiQWRtaW5pc3RyYXRvciIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY5MDM4OTU5NSwiZXhwIjoxNjkwMzkzMTk1fQ.MfFUtH-5KinZujfSICunqSy51gQQy_HhwWI7bD8lb_0
+
+
+
+
+### AUTH GOOGLE
+POST http://localhost:5000/api/auth/google
+Content-Type: application/json
+
+{
+    "access_token": "ya29.a0AbVbY6NtpoQ5SdJuT8dvq7lNNfdwD3lTdWqrX4gp4-o4um6nSreaNZCoeAHlCQ2BX66GzP5vH09p69piV_U-nNJg7LqrY9O1ovpfJ3hGlYDlYt6ul6dGkAo9poqrPWx1PuyPJR2G2DRwyexL3s2gy8klqWEOaCgYKAW8SARESFQFWKvPlTo546zYgUPLUEH1u0rmBuQ0163"
+}

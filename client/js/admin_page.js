@@ -10,4 +10,10 @@ async function getListUser(){
         console.log(error);
     }
 }
+
+async function handleLogout(){
+    localStorage.removeItem('access_token');
+    window.location.href = '../views/login.html';
+}
+
 getListUser();

@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const createError = require('http-errors');
+const axios = require('axios');
 const { userRegisterValidate, userLoginValidate} = require('../../validations/validation');
 const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../../services/jwt.service');
 const redisClient = require('../../config/redis');
@@ -108,6 +109,48 @@ function authController() {
                 res.status(200).json({accessTokenUser, refreshTokenUser});
             } catch (error) {
                 next(error);
+            }
+        },
+        authGoogle(req, res, next) {
+            if(req.body.access_token){
+                axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+                    headers: {
+                        "Authorization": `Bearer ${req.body.access_token}`
+                    }
+                }).then(async response => {
+                    const { email, given_name, family_name, picture, sub } = response.data;
+                    const name = `${(family_name || "")} ${(given_name || "")}`;
+
+                    // check email exits
+                    let user = await userModel.findOne({  $or: [{ email }, { googleId: sub }] });
+                    if (user) {
+                        // Update user info
+                        user.name = name;
+                        await user.save();
+                    }else {
+                        // store 1 user in mongodb
+                        user = await userModel.create({
+                            name,
+                            email,
+                            googleId: sub
+                        });
+                    }
+                     // create jwt when login success
+                    const payload = {
+                        _id: user._id,
+                        name: user.name,
+                        role: user.role
+                    }
+                    const accessTokenUser = await signAccessToken(payload);
+                    const refreshTokenUser = await signRefreshToken(payload);
+                    return res.status(200).json({
+                        message: "Login google successfully!", 
+                        accessToken: accessTokenUser,
+                        refreshToken: refreshTokenUser
+                    });
+                }).catch(err => next(err));
+            }else{
+                return next(createError.BadRequest("Access token is required"));
             }
         }
     }

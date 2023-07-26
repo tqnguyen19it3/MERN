@@ -1,0 +1,6 @@
+logout - client -------------OK
+refresh token - client
+sorf delete + restore user tầm bậy vẫn trả về thông báo thành (cần return về 1 trường hợp cụ thể)
+get list deleted user khi restore rồi mà vẫn còn trong list soft deleted
+xử lý thêm trường hợp destroy khi đã xóa mềm còn khi chưa xóa mềm thì chưa cho phép destroy -----------OK
+xử lý thêm xóa phiên đăng nhập của user đó khi admin xóa user account

@@ -12,7 +12,7 @@ async function handleLogin(){
             //decoded get info in payload
             const payloadDecoded = jwt_decode(accessToken);
             
-            payloadDecoded.role === 'regular' ? (window.location.href = "../views/home_page.html") : (window.location.href = "../views/admin_page.html");
+            payloadDecoded.role === 'admin' ? (window.location.href = "../views/admin_page.html") : (window.location.href = "../views/home_page.html");
             
             //save accesstoken to client
             localStorage.setItem("access_token", accessToken);

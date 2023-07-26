@@ -4,33 +4,12 @@ const redisClient = require('../config/redis');
 
 const signAccessToken = async (payload) => {
     return new Promise((resolve, reject) => {
-        jwt.sign(payload, process.env.SECRET_ACCESS_JWT , { expiresIn: '60s' }, (err, accessToken) => {
+        jwt.sign(payload, process.env.SECRET_ACCESS_JWT , { expiresIn: '1h' }, (err, accessToken) => {
             if(err){
                 reject(err);
             } 
             resolve(accessToken);
         }); 
-    });
-}
-
-const verifyAccessToken = (req, res, next) => {
-    // 1. Get token from client
-    const bearerHeader = req.headers['authorization'];
-    // console.log(bearerHeader);
-    if(!bearerHeader){
-        return next(createError.Unauthorized());
-    }
-    const accessToken = bearerHeader.split(' ')[1];
-    // 2. verify token
-    jwt.verify(accessToken, process.env.SECRET_ACCESS_JWT, (err, payload) => {
-        if(err){
-            if(err.name === 'JsonWebTokenError'){
-                return next(createError.Unauthorized());
-            }
-            return next(createError.Unauthorized(err.message));
-        }
-        req.payload = payload;
-        next();
     });
 }
 
@@ -72,7 +51,6 @@ const verifyRefreshToken = (refreshToken) => {
 
 module.exports = {
     signAccessToken,
-    verifyAccessToken,
     signRefreshToken,
     verifyRefreshToken
 }

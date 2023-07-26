@@ -3,7 +3,7 @@ const userRoute = require('./userRoute');
 const authRoute = require('./authRoute');
 const adminRoute = require('./adminRoute');
 
-//controllers
+// Controllers
 const homeController = require('../app/http/controllers/homeController');
 
 function initRoutes(app) {
