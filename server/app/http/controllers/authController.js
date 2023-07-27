@@ -2,7 +2,9 @@ const bcrypt = require('bcrypt');
 const createError = require('http-errors');
 const axios = require('axios');
 const { userRegisterValidate, userLoginValidate} = require('../../validations/validation');
+const { generateRandomPassword } = require('../../helpers/generate_password');
 const { signAccessToken, signRefreshToken, verifyRefreshToken } = require('../../services/jwt.service');
+const { sendPasswordEmail } = require('../../services/sendMail.service');
 const redisClient = require('../../config/redis');
 
 //models
@@ -96,6 +98,39 @@ function authController() {
                 next(error);
             }
         },
+        // [POST] / rest password when forget
+        async forgotPassword(req, res, next){
+            try {
+                const { email } = req.body;
+                if(!email) throw createError.Conflict(`Failed! Email is required`);
+                //check user exits
+                const user = await userModel.findOne({ email });
+                if(!user){
+                    throw createError.NotFound(`Failed! ${email} not registered`);
+                }
+                // create new password
+                const password  = await generateRandomPassword();
+                const hashedPassword = await bcrypt.hashSync(password, 10);
+
+                // update new password in db
+                await userModel.updateOne({ email: email }, { password: hashedPassword });
+
+                await sendPasswordEmail(
+                    email,
+                    user.name,
+                    "Reset Your Password",
+                    password,
+                    `<p>Your password is: ${password}</p>`
+                );
+
+                return res.status(200).json({
+                    message: "You should receive an email!",
+                });
+                
+            } catch (error) {
+                next(error);
+            }
+        },
         // [POST] / refresh token
         async refreshToken(req, res, next) {
             try {
@@ -111,6 +146,7 @@ function authController() {
                 next(error);
             }
         },
+        // [POST] / login google
         authGoogle(req, res, next) {
             if(req.body.access_token){
                 axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -126,6 +162,7 @@ function authController() {
                     if (user) {
                         // Update user info
                         user.name = name;
+                        user.googleId = sub;
                         await user.save();
                     }else {
                         // store 1 user in mongodb

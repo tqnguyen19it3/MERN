@@ -4,3 +4,9 @@ sorf delete + restore user tầm bậy vẫn trả về thông báo thành (cầ
 get list deleted user khi restore rồi mà vẫn còn trong list soft deleted
 xử lý thêm trường hợp destroy khi đã xóa mềm còn khi chưa xóa mềm thì chưa cho phép destroy -----------OK
 xử lý thêm xóa phiên đăng nhập của user đó khi admin xóa user account
+
+
+
+Đăng ký thông thường trước, nhỡ sau này có đăng nhập lại bằng tài khoản google nếu email trùng nhau thì thông tin sẽ cập nhật lại như thông tin tài khoản google (tên người dùng...), và sẽ thêm trường googleId trong DB =====> Đăng nhập cả 2 bên đều được
+
+Đăng nhập bằng google trước, không thể login theo thông thường vì k có trường password trong DB, để login theo thông thường được thì cần nhấn nút forgot password thì nó sẽ tạo thêm trường password =====> từ đó ms Đăng nhập đc 2 bên

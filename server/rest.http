@@ -7,7 +7,7 @@ Content-Type: application/json
 
 {
     "name": "drhappykun",
-    "email": "drhappykun@gmail.com",
+    "email": "drhappykun.tqn@gmail.com",
     "password": "123456"
 }
 
@@ -16,8 +16,8 @@ POST http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "admin@gmail.com",
-    "password": "123456"
+    "email": "drhappykun.tqn@gmail.com",
+    "password": "Pu@owH4s"
 }
 
 ### LOGOUT
@@ -79,5 +79,13 @@ POST http://localhost:5000/api/auth/google
 Content-Type: application/json
 
 {
-    "access_token": "ya29.a0AbVbY6NtpoQ5SdJuT8dvq7lNNfdwD3lTdWqrX4gp4-o4um6nSreaNZCoeAHlCQ2BX66GzP5vH09p69piV_U-nNJg7LqrY9O1ovpfJ3hGlYDlYt6ul6dGkAo9poqrPWx1PuyPJR2G2DRwyexL3s2gy8klqWEOaCgYKAW8SARESFQFWKvPlTo546zYgUPLUEH1u0rmBuQ0163"
+    "access_token": "ya29.a0AbVbY6NqQ9ftUXoMAPdDeKdFTRklAbHihshVoGVD1cPYc50MCMLUdc8XHoH_DZLZNzzL4w73K5fe5bsX3xFyKYnFBddeaRDeelbGaceZ6l_dkCD7AgSpGmPdSSK2m500lLV-KhnSotp9Eb6BJkoF8Drb58UCaCgYKAVQSARASFQFWKvPl3DoJVBFCn_ewfoLcZC8CKw0163"
+}
+
+###
+POST http://localhost:5000/api/auth/forgot-password
+Content-Type: application/json
+
+{
+    "email": "drhappykun.tqn@gmail.com"
 }
